@@ -20,6 +20,7 @@ import axios from "./axios";
 const Sidebar = () => {
     const user = useSelector(selectUser);
     const [channels, setChannels] = useState([]);
+    console.log(channels);
 
     const getChannels = () => {
         axios.get('/get/channelList').then((res) => {
@@ -30,15 +31,6 @@ const Sidebar = () => {
     useEffect(() => {
         getChannels();
     }, []);
-
-    useEffect(() => {
-        db.collection('channels').onSnapshot(snapshot => {
-            setChannels(snapshot.docs.map(doc => ({
-                id: doc.id,
-                channel: doc.data()
-            })))
-        })
-    }, [])
 
     const handleAddChannel = (e) => {
         e.preventDefault()
@@ -70,11 +62,13 @@ const Sidebar = () => {
                     <AddIcon onClick={handleAddChannel} className='sidebar__addChannel' />
                 </div>
                 <div className="sidebar__channelsList">
-                    {
-                        channels.map(({ id, channel }) => (
-                            <SidebarChannel key={id} id={id} channelName={channel.channelName} />
-                        ))
-                    }
+                    {channels.map((channel) => (
+                        <SidebarChannel
+                            key={channel.id}
+                            id={channel.id}
+                            channelName={channel.name}
+                        />
+                    ))}
                 </div>
             </div>
 
