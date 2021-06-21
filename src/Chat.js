@@ -52,7 +52,7 @@ const Chat = () => {
                     console.log(message)
                 })}
                 {messages.map(message => (
-                    <Message message={message.message} timestamp={message.timestamp} user={message.user} />
+                    <Message key={message.timestamp} message={message.message} timestamp={message.timestamp} user={message.user} />
                 ))}
             </div>
 
@@ -60,7 +60,7 @@ const Chat = () => {
                 <AddCircleIcon fontSize='large' />
                 <form>
                     <input type="text" disabled={!channelId} value={input} onChange={(e) => setInput(e.target.value)} placeholder={`Message #${channelName}`} />
-                    <button className='chat__inputButton' onClick={sendMessage} disabled={!channelId} type='submit'>Send Message</button>
+                    <button className='chat__inputButton' hidden onClick={sendMessage} disabled={!channelId} type='submit'>Send Message</button>
                 </form>
 
                 <div className="chat__inputIcon">
