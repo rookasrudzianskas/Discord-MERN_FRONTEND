@@ -13,23 +13,27 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import db from './firebase'
 import firebase from 'firebase'
+import axios from "./axios";
 
 const Chat = () => {
     const user = useSelector(selectUser)
     const channelId = useSelector(selectChannelId)
     const channelName = useSelector(selectChannelName)
     const [input, setInput] = useState('')
-    const [messages, setMessages] = useState([])
+    const [messages, sendMessages] = useState([])
 
-    useEffect(() => {
-        if (channelId) {
-            db.collection('channels').doc(channelId).collection('messages').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-                setMessages(snapshot.docs.map(doc => doc.data()))
+    const getConversation = (channelId) => {
+        if(channelId) {
+            axios.get(`/get/conversation?id=${channelId}`).then((res) => {
+                sendMessages(res.data[0].conversation);
             })
         }
+    }
 
+    useEffect(() => {
+        getConversation(channelId);
 
-    }, [channelId])
+    }, [channelId]);
 
     const sendMessage = (e) => {
         e.preventDefault()
