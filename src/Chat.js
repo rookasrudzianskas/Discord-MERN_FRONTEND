@@ -40,7 +40,7 @@ const Chat = () => {
 
         const channel = pusher.subscribe("conversation");
         channel.bind("newMessage", function (data) {
-            getConversation();
+            getConversation(channelId);
         });
 
     }, [channelId]);
