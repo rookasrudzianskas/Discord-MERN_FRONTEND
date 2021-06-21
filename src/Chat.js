@@ -38,13 +38,13 @@ const Chat = () => {
     const sendMessage = (e) => {
         e.preventDefault()
 
-        db.collection('channels').doc(channelId).collection('messages').add({
+        axios.post(`/new/message?id=${channelId}`, {
             message: input,
+            timestamp: new Date.now(),
             user: user,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
         })
 
-        setInput('')
+        setInput('');
     }
 
     return (
