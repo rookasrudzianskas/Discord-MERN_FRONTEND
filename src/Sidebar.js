@@ -16,6 +16,11 @@ import db, { auth } from './firebase'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import axios from "./axios";
+import Pusher from "pusher-js";
+
+const pusher = new Pusher('eb7cd7f1e1f39229a9e3', {
+    cluster: 'eu'
+});
 
 const Sidebar = () => {
     const user = useSelector(selectUser);
@@ -30,6 +35,11 @@ const Sidebar = () => {
 
     useEffect(() => {
         getChannels();
+
+        const channel = pusher.subscribe("channels");
+        channel.bind("newChannel", function (data) {
+            getChannels();
+        });
     }, []);
 
     const handleAddChannel = (e) => {
