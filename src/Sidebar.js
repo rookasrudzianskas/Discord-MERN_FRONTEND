@@ -15,10 +15,21 @@ import { selectUser } from './features/userSlice'
 import db, { auth } from './firebase'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import axios from "./axios";
 
 const Sidebar = () => {
-    const user = useSelector(selectUser)
-    const [channels, setChannels] = useState([])
+    const user = useSelector(selectUser);
+    const [channels, setChannels] = useState([]);
+
+    const getChannels = () => {
+        axios.get('/get/channelList').then((res) => {
+            setChannels(res.data);
+        })
+    }
+
+    useEffect(() => {
+        getChannels();
+    }, []);
 
     useEffect(() => {
         db.collection('channels').onSnapshot(snapshot => {
@@ -32,7 +43,7 @@ const Sidebar = () => {
     const handleAddChannel = (e) => {
         e.preventDefault()
 
-        const channelName = prompt('Enter a new channel name')
+        const channelName = prompt('Enter a new channel name');
 
         if (channelName) {
             db.collection('channels').add({
