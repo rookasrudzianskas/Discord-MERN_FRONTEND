@@ -40,7 +40,7 @@ const Chat = () => {
 
         axios.post(`/new/message?id=${channelId}`, {
             message: input,
-            timestamp: new Date.now(),
+            timestamp: Date.now(),
             user: user,
         })
 

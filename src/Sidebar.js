@@ -21,6 +21,7 @@ const Sidebar = () => {
     const user = useSelector(selectUser);
     const [channels, setChannels] = useState([]);
 
+    console.log(channels)
     const getChannels = () => {
         axios.get('/get/channelList').then((res) => {
             setChannels(res.data);

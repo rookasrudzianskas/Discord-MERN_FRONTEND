@@ -9,7 +9,7 @@ const Message = ({ timestamp, user, message }) => {
 
     return (
         <div className='message' >
-            <Avatar src={user.photo} />
+            <Avatar src={user?.photo} />
             <div className="message__info">
                 <h4>{user.displayName}
                     <span className="message__timestamp">{new Date(parseInt(timestamp)).toDateString()}</span>
