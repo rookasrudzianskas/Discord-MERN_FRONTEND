@@ -20,7 +20,6 @@ import axios from "./axios";
 const Sidebar = () => {
     const user = useSelector(selectUser);
     const [channels, setChannels] = useState([]);
-    console.log(channels);
 
     const getChannels = () => {
         axios.get('/get/channelList').then((res) => {
@@ -38,12 +37,11 @@ const Sidebar = () => {
         const channelName = prompt('Enter a new channel name');
 
         if (channelName) {
-            db.collection('channels').add({
-                channelName: channelName
-            })
-
+            axios.post("/new/channel", {
+                channelName: channelName,
+            });
         }
-    }
+    };
 
     return (
         <div className='sidebar' >
